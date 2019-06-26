@@ -18,7 +18,7 @@
 
 > For running the Server
 
-- **npm run start**
+- **npm run**
 
 > For running the client
 

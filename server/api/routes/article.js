@@ -1,20 +1,9 @@
 const express = require('express');
-const multer = require('multer');
-const sharp = require('sharp');
 
 const auth = require('../../middleware/auth');
 const Article = require('../model/article');
 
 const routes = new express.Router();
-
-const upload = multer({
-  limits: 1000000,
-  fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(jpg|jpeg|png)$/))
-      cb(new Error('Please upload an image'));
-    cb(undefined, true);
-  }
-});
 
 // POST => Add Article
 routes.post('/api/article', auth, async (req, res) => {

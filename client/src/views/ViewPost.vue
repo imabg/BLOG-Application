@@ -1,15 +1,12 @@
 <template >
   <div class="container-fluid mt-4">
     <p class="display-4 text-center heading">{{title}}</p>
-    <hr>
-    <img :src="image" class="text-center">
+    <hr />
+    <img :src="image" class="text-center" />
     <p class="text-left ml-4 para">{{description}}</p>
-    <div v-if="authToken">
-      <router-link to="/dashboard" class="btn btn-outline-primary">Back to Dashboard</router-link>
-    </div>
-    <div v-else>
+    <!-- <div>
       <router-link to="/" class="btn btn-outline-primary">Back to Home</router-link>
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -24,13 +21,11 @@ export default {
       description: "",
       createdAt: "",
       updatedAt: "",
-      image: "",
-      authToken: true
+      image: ""
     };
   },
   mounted() {
     const token = localStorage.getItem("token");
-    this.authToken = token;
     const id = this.$route.params.id;
     axios
       .get(`http://localhost:5000/api/article/${id}`, {

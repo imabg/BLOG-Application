@@ -1,20 +1,27 @@
 <template>
   <div class="container">
     <ul class="nav justify-content-end">
-      <li class="nav-item">
-        <router-link to="/login" class="mr-4">Login</router-link>
-        <router-link to="/register">Register</router-link>
-      </li>
+      <div v-if="notLogin">
+        <li class="nav-item">
+          <router-link to="/login" class="mr-4">Login</router-link>
+          <router-link to="/register">Register</router-link>
+        </li>
+      </div>
+      <div v-else>
+        <li class="nav-item">
+          <router-link to="/dashboard" class="mr-4">Dashboard</router-link>
+          <a href="#" @click="logout" class="text-danger">Sign-Out</a>
+        </li>
+      </div>
     </ul>
-    <hr>
+    <hr />
     <div>
       <p class="display-4">Welcome to Blog Application</p>Created By:
       <a href="https://abgoswami.netlify.com" target="_blank" class="lead">Abhay Goswami</a>
-      <p class="lead text-center">Please, Login/Register for Editing and deleting the Post.</p>
     </div>
-    <br>
+    <br />
     <div class="conatiner">
-      <Post :posts="posts"/>
+      <Post :posts="posts" />
     </div>
   </div>
 </template>
@@ -29,7 +36,8 @@ export default {
   },
   data() {
     return {
-      posts: ""
+      posts: "",
+      notLogin: true
     };
   },
   mounted() {
@@ -38,7 +46,30 @@ export default {
       .then(res => {
         this.posts = res.data;
       })
-      .catch(e => {});
+      .catch(() => {});
+  },
+  created() {
+    if (localStorage.getItem("token") != null) {
+      this.notLogin = false;
+    }
+  },
+  methods: {
+    logout() {
+      let token = localStorage.getItem("token");
+      axios
+        .delete("http://localhost:5000/api/user/logout", {
+          headers: {
+            Authorization: "Bearer " + token
+          }
+        })
+        .then(() => {
+          localStorage.removeItem("token");
+          this.$router.go();
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
   }
 };
 </script>

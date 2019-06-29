@@ -2,13 +2,10 @@
   <div class="conatiner-fluid mt-4">
     <div class="fixed-left-top">
       <p class="display-4">Hello, {{user.name | capitalize }}</p>
-      <a class="btn btn-outline-danger" @click="logout">
-        <i class="fa fa-sign-out">Sign out</i>
-      </a>
     </div>
-    <hr>
+    <hr />
     <div class="conatiner" v-if="found">
-      <Post :posts="posts"/>
+      <Post :posts="posts" :home="false" />
     </div>
     <div class="container" v-else>
       <p class="display-6">No Posts yet.</p>
@@ -18,6 +15,7 @@
         Add Post
         <i class="fa fa-plus"></i>
       </router-link>
+      <router-link to="/" class="ml-4">Back to HOME</router-link>
     </div>
   </div>
 </template>
@@ -46,22 +44,6 @@ export default {
     }
   },
   methods: {
-    logout() {
-      let token = localStorage.getItem("token");
-      axios
-        .delete("http://localhost:5000/api/user/logout", {
-          headers: {
-            Authorization: "Bearer " + token
-          }
-        })
-        .then(() => {
-          localStorage.removeItem("token");
-          this.$router.push("/");
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    },
     fetchArticles() {
       let token = localStorage.getItem("token");
       axios
@@ -80,6 +62,7 @@ export default {
     }
   },
   created() {
+    console.log(this.$router);
     let token = localStorage.getItem("token");
     // User
     axios

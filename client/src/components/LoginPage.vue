@@ -11,7 +11,7 @@
           placeholder="Enter email"
           v-model="user.email"
           required
-        >
+        />
       </div>
       <div class="form-group">
         <label for="exampleInputPassword1">Password</label>
@@ -22,7 +22,7 @@
           placeholder="Password"
           v-model="user.password"
           required
-        >
+        />
       </div>
       <button type="submit" class="btn btn-primary">Login</button>
       <router-link to="/register" class="btn btn-link">Register</router-link>
@@ -51,7 +51,7 @@ export default {
         .post("http://localhost:5000/api/user/login", this.user)
         .then(res => {
           localStorage.setItem("token", res.data.token);
-          this.$router.push("/dashboard");
+          this.$router.push("/");
         })
         .catch(() => {
           this.showErrorMsg({ message: "Email/Password is NOT correct" });

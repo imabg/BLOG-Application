@@ -16,12 +16,13 @@
             <td>{{ post.title }}</td>
             <td>{{ post.updatedAt }}</td>
             <td class="text-right">
-              <!-- <router-link to:></router-link> -->
               <router-link :to="{name:'viewPost', params: {id: post._id}}">View</router-link>
               <span v-if="authToken">
-                |
-                <router-link :to="{name:'editPost', params: {id: post._id}}">Edit</router-link>|
-                <a href="#" @click.prevent="deletePost(post._id)">Delete</a>
+                <span v-if="route === '/dashboard'">
+                  |
+                  <router-link :to="{name:'editPost', params: {id: post._id}}">Edit</router-link>|
+                  <a href="#" @click.prevent="deletePost(post._id)">Delete</a>
+                </span>
               </span>
               <span v-else></span>
             </td>
@@ -43,10 +44,12 @@ export default {
   },
   data() {
     return {
-      authToken: false
+      authToken: false,
+      route: ""
     };
   },
   mounted() {
+    this.route = this.$router.history.current.fullPath;
     if (localStorage.getItem("token") !== null) {
       this.authToken = true;
     }

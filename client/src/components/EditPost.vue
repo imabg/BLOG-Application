@@ -60,6 +60,7 @@ export default {
         this.id = res.data._id;
         this.article.title = res.data.title;
         this.article.description = res.data.description;
+        this.article.image = res.data.image;
       })
       .catch(e => {
         console.log(e);
